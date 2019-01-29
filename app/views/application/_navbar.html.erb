@@ -23,6 +23,7 @@
         <li class="ls-active" >
           <%= link_to 'Home', promotions_path %>
         </li>
+        <%= current_user.menu %>
         <% if user_signed_in? %>
           <li>
             <%= link_to 'Nova Promoção', new_promotion_path %>

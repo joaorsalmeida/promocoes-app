@@ -1,19 +1,11 @@
 <% content_for :title do %>
   <h1 class="ls-title-intro ls-ico-origins">
-    Promoção <%= @promotion.name %>
+    <%= @promotion.title %>
   </h1>
 <% end %>
 <h3 class="ls-title-3">
   <%= @promotion.name.capitalize %>
-  <% if @promotion.pending? %>
-    <span class="ls-tag-warning">Pendente</span>
-  <% elsif @promotion.approved? %>
-    <span class="ls-tag-info">Aprovada</span>
-  <% elsif @promotion.activated? %>
-    <span class="ls-tag-success">Ativado</span>
-  <% else %>
-    <span class="ls-tag-alert">Expirada</span>
-  <% end %>
+  <%= @promotion.status %>
 </h3>
 <table class="ls-table ls-table-striped">
   <tbody>
@@ -22,11 +14,8 @@
     </tr>
     <tr>
       <td><strong>Aprovada por: </strong>
-        <% if @promotion.approved? || @promotion.activated? %>
-          <%= @promotion.approval.user.name.capitalize %></td>
-        <% else %>
-            ----
-        <% end %>
+        <%= @promotion.approver_name %>
+      </td>
     </tr>
     <tr>
       <td>
@@ -94,11 +83,6 @@
   </div>
 <% end %>
 
-<% unless current_user == @promotion.creation_user %>
-  <% if @promotion.pending? %>
-    <div class="ls-actions-btn">
-      <%= link_to 'Aprovar Promoção', approve_promotion_path(@promotion), method: :put, class: 'ls-btn-primary ls-btn-lg' %>
-    </div>
-  <% end %>
-<% end %>
+<%= @promotion.approval_link %>
+
 <%= render partial: 'application/back_button', locals: { my_path: :root } %>
